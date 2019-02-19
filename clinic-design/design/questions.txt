@@ -1,0 +1,4 @@
+- Would departments be under doctor or locations?
+- Who is the target audience: patients, doctors, guests, other employees, etc.?
+- Is every patient a customer, and is every customer a patient?
+- What does it mean for a patient to be assigned to more than one doctor?

@@ -1,0 +1,10 @@
+- Address: Address
+- Age: int
+- Appointments: ?
+- DOB: ?
+- Health record #: ?
+- Patient ID: ?
+- Primary Physician: ?
+- Phone #: ?
+- Name: ?
+- Medical Record: id?

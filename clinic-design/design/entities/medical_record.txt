@@ -1,0 +1,18 @@
+- Patient Id
+- Patient Name
+- Blood Type
+- Illnesses
+- Allergies
+- Surgical History
+  - Date
+  - Office
+  - Reason
+  - Details?
+  - Doctor?
+- Treatment History
+  - Date
+  - Office
+  - Reason
+  - Details?
+  - Doctor?
+- Prescriptions: Prescription

@@ -1,0 +1,27 @@
+- company
+- office
+- state
+- doctor
+- patient
+- day
+- database
+- information
+- name
+- address
+- contact phone
+- area of specialization
+- phone
+- health record number
+- date of birth
+- history of appointment
+- prescription
+- blood test
+- diagnoses
+- customer
+- appointment
+- drug
+- phone
+- specialist
+- patient
+- physician
+- refill

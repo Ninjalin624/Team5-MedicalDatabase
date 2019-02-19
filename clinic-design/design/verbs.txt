@@ -1,0 +1,11 @@
+- A company has multiple offices.
+- Many doctors work for the company.
+- Each doctor takes care of multiple patients.
+- Doctors work in many offices.
+- Each patient is assigned to one or more doctors.
+- Customers schedule and cancel appointments.
+- Customers order prescription drugs.
+
+# Constraints
+- A patient needs permission from primary physician to see a specialist.
+- Need at least one valid refill left to order a prescription.

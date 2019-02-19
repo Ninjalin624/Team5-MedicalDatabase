@@ -1,0 +1,7 @@
+- Apartment Number (Nullable)
+- Building Number (Nullable)
+- Street Number
+- Street Name
+- City
+- State
+- Zip Code + 4-code
