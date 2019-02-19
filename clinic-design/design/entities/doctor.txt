@@ -1,0 +1,6 @@
+- Address: Address
+- Area of Specialization: String
+  - Neural surgeon, pediatric, etc.
+- Contact Phones: Enumerated String
+- Doctor ID: int?
+- Name: String

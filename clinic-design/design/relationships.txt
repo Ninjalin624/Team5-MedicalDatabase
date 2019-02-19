@@ -1,0 +1,6 @@
+- Many doctors TAKE CARE OF many patients
+  - vice versa
+- Many doctor WORK IN many offices
+- One patient CAN HAVE many appointment
+  - But, an appointment is assigned to one patient.
+- 

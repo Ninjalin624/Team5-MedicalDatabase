@@ -1,0 +1,6 @@
+- Office ID: int?
+- Street #
+- Street name
+- City: String
+- State: Enumerated String
+- Zip Code: int
