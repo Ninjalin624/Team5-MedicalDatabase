@@ -1,4 +1,4 @@
-# clinic-web
+# ClinicWeb
 
 Team 5's clinic frontend.
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace clinic_web.Pages
+namespace ClinicWeb.Pages
 {
     public class PrivacyModel : PageModel
     {
