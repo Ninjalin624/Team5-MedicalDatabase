@@ -13,7 +13,7 @@ namespace ClinicWeb.Pages.Directory
         public void OnGet()
         {
             var repo = new Repo();
-            Addresses = repo.FetchAddresses();
+            Addresses = repo.ReadAddresses();
         }
     }
 }
