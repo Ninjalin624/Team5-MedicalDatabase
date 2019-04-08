@@ -4,7 +4,7 @@ using ClinicWeb.Model;
 
 namespace ClinicWeb.Services
 {
-    class Repo
+    public class Repo
     {
         public IEnumerable<Address> FetchAddresses()
         {
