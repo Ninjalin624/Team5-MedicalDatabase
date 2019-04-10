@@ -7,16 +7,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ClinicWeb.Pages
 {
-    public class IndexModel : PageModel
+    public class RegisterModel : PageModel
     {
         public void OnGet()
         {
-
-        }
-
-        public void OnPost()
-        {
-
         }
     }
 }
