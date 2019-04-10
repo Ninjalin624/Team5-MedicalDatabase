@@ -12,8 +12,11 @@ namespace ClinicWeb.Pages.Directory
 
         public void OnGet()
         {
-            var repo = new Repo();
-            Addresses = repo.ReadAddresses();
+            var connStr = "Database=clinicdb; Data Source=team5med-db.mysql.database.azure.com; User Id=Team5DBAdmin@team5med-db; Password=Clinic123";
+            using (var repo = new Repo(connStr))
+            {
+                Addresses = repo.ReadAddresses();
+            }
         }
     }
 }

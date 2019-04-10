@@ -11,28 +11,29 @@ namespace ClinicWeb.Services
     {
         private MySqlConnection connection;
 
-        public Repo()
+        public Repo(string connectionString)
         {
-            connection = new MySqlConnection("Database=clinicdb; Data Source=team5med-db.mysql.database.azure.com; User Id=Team5DBAdmin@team5med-db; Password=Clinic123");
+            connection = new MySqlConnection(connectionString);
             connection.Open();
         }
 
         public IEnumerable<Address> ReadAddresses()
         {
-            // var cmd = connection.CreateCommand();
-            // cmd.CommandText = @"SELECT * FROM `address`";
-            // cmd.ExecuteNonQuery();
-            
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT address_id, street_address, state, city, postal_code FROM `address`";
+            cmd.ExecuteNonQuery();
 
             var result = new List<Address>();
-
-            var fakeAddr = new Address();
-            fakeAddr.AddressId = 0;
-            fakeAddr.City = "Houston";
-            fakeAddr.PostalCode = 77573;
-            fakeAddr.State = "Texas";
-            fakeAddr.StreetAddress = "471 Looneyville Street";
-            result.Add(fakeAddr);
+            for (var reader = cmd.ExecuteReader(); reader.Read();)
+            {
+                var addr = new Address();
+                addr.AddressId = reader.GetInt32(0);
+                addr.StreetAddress = reader.GetString(1);
+                addr.State = reader.GetString(2);
+                addr.City = reader.GetString(3);
+                addr.PostalCode = reader.GetInt32(4);
+                result.Add(addr);
+            }
 
             return result;
         }
