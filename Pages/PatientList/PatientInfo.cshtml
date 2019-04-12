@@ -1,0 +1,31 @@
+﻿@page
+@model ClinicWeb.Pages.PatientList.PatientInfoModel
+@{
+    ViewData["Title"] = "PatientInfo";
+}
+
+<h1>PatientInfo</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>PatientID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in Model.Patients)
+        {
+            <tr>
+                <td>@patient.Person.FirstName</td>
+                <td>@patient.Person.LastName</td>
+                <td>@patient.Person.Phone</td>
+                <td>@patient.Person.Address.StreetAddress</td>
+                <td>@patient.PatientId</td>
+            </tr>
+        }
+    </tbody>
+</table>

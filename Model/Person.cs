@@ -17,7 +17,7 @@ namespace ClinicWeb.Model
         public DateTime Dob { get; set; }
         public bool? Gender { get; set; }
         public int AddressId { get; set; }
-        public int? Phone { get; set; }
+        public string Phone { get; set; }
 
         public virtual Address Address { get; set; }
         public virtual Doctor Doctor { get; set; }
