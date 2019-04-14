@@ -2,20 +2,20 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using ClinicWeb.Model;
-using ClinicWeb.Services;
 using ClinicWeb.Resources;
+using ClinicWeb.Services;
 
 namespace ClinicWeb.Pages.Directory
 {
-    public class AddressModel : PageModel
+    public class PersonModel : PageModel
     {
-        public IEnumerable<Address> Addresses { get; set; }
+        public IEnumerable<Person> Persons { get; set; }
 
         public void OnGet()
         {
             using (var repo = new Repo(ConnectionStrings.Default))
             {
-                Addresses = repo.ReadAddresses();
+                Persons = repo.ReadPersons();
             }
         }
     }

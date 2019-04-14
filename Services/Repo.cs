@@ -1,6 +1,7 @@
 using System;
+using System.ComponentModel;
+using System.Linq;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 using MySql.Data.MySqlClient;
 using ClinicWeb.Model;
@@ -20,7 +21,8 @@ namespace ClinicWeb.Services
         public IEnumerable<Address> ReadAddresses()
         {
             var cmd = connection.CreateCommand();
-            cmd.CommandText = @"SELECT address_id, street_address, state, city, postal_code FROM `address`";
+            cmd.CommandText = @"SELECT address_id, street_address, state, city, postal_code 
+                                FROM `address`;";
             cmd.ExecuteNonQuery();
 
             var result = new List<Address>();
@@ -111,6 +113,43 @@ namespace ClinicWeb.Services
 
             }
             return result;
+        }
+
+        public IEnumerable<Person> ReadPersons()
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM `person`;";
+            cmd.ExecuteNonQuery();
+
+            var result = new List<Person>();
+            for (var reader = cmd.ExecuteReader(); reader.Read();)
+            {
+                result.Add(Populate<Person>(reader));
+            }
+
+            return result;
+        }
+
+        private T Populate<T>(MySqlDataReader reader) where T : new()
+        {
+            var obj = new T();
+            var objType = obj.GetType();
+            var props = objType.GetProperties()
+                .Where(p => p.PropertyType.IsPrimitive || p.PropertyType == typeof(string));
+
+            foreach (var property in props) {
+                object value = reader[PascalCaseToSnakeCase(property.Name)];
+                var actual = Convert.ChangeType(value, property.PropertyType);
+                property.SetValue(obj, actual);
+            } 
+
+            return obj;
+        }
+
+        private string PascalCaseToSnakeCase(string str)
+        {
+            var underscoreConnected = string.Concat(str.Select((c, i) => (i != 0 && char.IsUpper(c)) ? "_" + c.ToString() : c.ToString()));
+            return underscoreConnected.ToLower();
         }
 
         public void Dispose()

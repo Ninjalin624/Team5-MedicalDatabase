@@ -1,0 +1,31 @@
+@page
+@model PersonModel
+@{
+    ViewData["Title"] = "Persons";
+}
+
+<h2 class="display-4">Persons</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>PersonId</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>Gender</th>
+      <th>AddressId</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var person in Model.Persons)
+    {
+      <tr>
+        <td>@person.PersonId</td>
+        <td>@person.FirstName</td>
+        <td>@person.LastName</td>
+        <td>@person.Gender</td>
+        <td>@person.AddressId</td>
+      </tr>
+    }
+  </tbody>
+</table>
