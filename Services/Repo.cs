@@ -28,13 +28,7 @@ namespace ClinicWeb.Services
             var result = new List<Address>();
             for (var reader = cmd.ExecuteReader(); reader.Read();)
             {
-                var addr = new Address();
-                addr.AddressId = reader.GetInt32(0);
-                addr.StreetAddress = reader.GetString(1);
-                addr.State = reader.GetString(2);
-                addr.City = reader.GetString(3);
-                addr.PostalCode = reader.GetInt32(4);
-                result.Add(addr);
+                result.Add(Populate<Address>(reader));
             }
 
             return result;
