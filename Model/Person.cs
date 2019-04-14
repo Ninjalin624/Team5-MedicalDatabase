@@ -21,7 +21,7 @@ namespace ClinicWeb.Model
         [DisplayName("DOB")]
         [DataType(DataType.Date)]
         public DateTime Dob { get; set; }
-        public bool? Gender { get; set; }
+        public bool Gender { get; set; }
         public int AddressId { get; set; }
         [DisplayName("Phone Number")]
         public string Phone { get; set; }

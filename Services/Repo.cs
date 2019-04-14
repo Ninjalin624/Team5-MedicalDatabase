@@ -134,14 +134,18 @@ namespace ClinicWeb.Services
         {
             var obj = new T();
             var objType = obj.GetType();
-            var props = objType.GetProperties()
-                .Where(p => p.PropertyType.IsPrimitive || p.PropertyType == typeof(string));
+            var colNames = Enumerable.Range(0, reader.FieldCount)
+                .Select(i => reader.GetName(i));
 
-            foreach (var property in props) {
-                object value = reader[PascalCaseToSnakeCase(property.Name)];
+            foreach (var property in objType.GetProperties())
+            {
+                var colName = PascalCaseToSnakeCase(property.Name);
+                if (!colNames.Contains(colName)) continue;
+
+                object value = reader[colName];
                 var actual = Convert.ChangeType(value, property.PropertyType);
                 property.SetValue(obj, actual);
-            } 
+            }
 
             return obj;
         }
