@@ -18,14 +18,21 @@ namespace ClinicWeb.Pages.Portal
     {
         public IActionResult OnPost(string dataset, int count)
         {
-            using (var repo = new Repo(ConnectionStrings.Default))
+            if (dataset == "address")
             {
-                if (dataset == "address")
+                using (var repo = new Repo(ConnectionStrings.Default))
                 {
                     var addresses = repo.ReadAddresses();
                     string result = CsvSerializer.SerializeToCsv(addresses);
 
                     return File(Encoding.UTF8.GetBytes(result), "text/CSV", "report.csv");
+                }
+            }
+            else if (dataset == "patient")
+            {
+                using (var repo = new Repo(ConnectionStrings.Default))
+                {
+                    return File(Encoding.UTF8.GetBytes(repo.ReadPatientsCSV(5)), "text/CSV", "report.csv");
                 }
             }
 
