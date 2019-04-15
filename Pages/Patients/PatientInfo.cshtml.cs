@@ -16,7 +16,6 @@ namespace ClinicWeb.Pages.PatientList
             {
                 Patients = repo.ReadPatients();
             }
-
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
 using System.Collections.Generic;
 
 using MySql.Data.MySqlClient;
@@ -26,12 +27,51 @@ namespace ClinicWeb.Services
             cmd.ExecuteNonQuery();
 
             var result = new List<Address>();
-            for (var reader = cmd.ExecuteReader(); reader.Read();)
+            using (var reader = cmd.ExecuteReader())
             {
-                result.Add(Populate<Address>(reader));
+                while (reader.Read())
+                {
+                    result.Add(Populate<Address>(reader));
+                }
             }
 
             return result;
+        }
+
+        public string ReadPatientsCSV(int count = 5)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT per.person_id, pat.patient_id, per.first_name, per.last_name, 
+                                per.dob, per.gender, addr.street_address, addr.city, addr.state, 
+                                addr.postal_code, per.phone, pat.primary_office_id FROM((person per JOIN patient pat) JOIN address addr)
+                                WHERE ((per.person_id = pat.person_id) AND (per.address_id = addr.address_id))";
+            cmd.ExecuteNonQuery();
+
+            var sb = new StringBuilder();
+            using (var reader = cmd.ExecuteReader())
+            {
+                var columnNames = Enumerable.Range(0, reader.FieldCount)
+                        .Select(reader.GetName)
+                        .ToList();
+                sb.Append(string.Join(",", columnNames));
+                sb.AppendLine();
+
+                while (reader.Read())
+                {
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        string value = reader[i].ToString();
+                        if (value.Contains(","))
+                            value = "\"" + value + "\"";
+
+                        sb.Append(value.Replace(Environment.NewLine, " ") + ",");
+                    }
+                    sb.Length--; // Remove the last comma
+                    sb.AppendLine();
+                }
+            }
+
+            return sb.ToString();
         }
 
         public IEnumerable<Patient> ReadPatients()
@@ -44,15 +84,19 @@ namespace ClinicWeb.Services
             cmd.ExecuteNonQuery();
 
             var result = new List<Patient>();
-            for (var reader = cmd.ExecuteReader(); reader.Read();)
+            using (var reader = cmd.ExecuteReader())
             {
-                var per = Populate<Person>(reader);
-                per.Address = Populate<Address>(reader);
-                var pat = Populate<Patient>(reader);
-                pat.Person = per;
+                while (reader.Read())
+                {
+                    var per = Populate<Person>(reader);
+                    per.Address = Populate<Address>(reader);
+                    var pat = Populate<Patient>(reader);
+                    pat.Person = per;
 
-                result.Add(pat);
+                    result.Add(pat);
+                }
             }
+
             return result;
         }
 
@@ -67,29 +111,31 @@ namespace ClinicWeb.Services
             cmd.ExecuteNonQuery();
 
             var result = new Patient();
-            for (var reader = cmd.ExecuteReader(); reader.Read();)
+            using (var reader = cmd.ExecuteReader())
             {
+                while (reader.Read())
+                {
+                    var addr = new Address();
+                    var per = new Person();
 
-                var addr = new Address();
-                var per = new Person();
-
-                result.PersonId = reader.GetInt32(0);
-                result.PatientId = reader.GetInt32(1);
-                per.FirstName = reader.GetString(2);
-                per.LastName = reader.GetString(3);
-                per.Dob = reader.GetDateTime(4);
-                per.Gender = reader.GetBoolean(5);
-                addr.StreetAddress = reader.GetString(6);
-                addr.City = reader.GetString(7);
-                addr.State = reader.GetString(8);
-                addr.PostalCode = reader.GetInt32(9);
-                per.Phone = reader.GetString(10);
-                result.PrimaryOfficeId = reader.GetInt32(11);
-                addr.AddressId = reader.GetInt32(12);
-                per.Address = addr;
-                result.Person = per;
-
+                    result.PersonId = reader.GetInt32(0);
+                    result.PatientId = reader.GetInt32(1);
+                    per.FirstName = reader.GetString(2);
+                    per.LastName = reader.GetString(3);
+                    per.Dob = reader.GetDateTime(4);
+                    per.Gender = reader.GetBoolean(5);
+                    addr.StreetAddress = reader.GetString(6);
+                    addr.City = reader.GetString(7);
+                    addr.State = reader.GetString(8);
+                    addr.PostalCode = reader.GetInt32(9);
+                    per.Phone = reader.GetString(10);
+                    result.PrimaryOfficeId = reader.GetInt32(11);
+                    addr.AddressId = reader.GetInt32(12);
+                    per.Address = addr;
+                    result.Person = per;
+                }
             }
+
             return result;
         }
 
@@ -100,9 +146,12 @@ namespace ClinicWeb.Services
             cmd.ExecuteNonQuery();
 
             var result = new List<Person>();
-            for (var reader = cmd.ExecuteReader(); reader.Read();)
+            using (var reader = cmd.ExecuteReader())
             {
-                result.Add(Populate<Person>(reader));
+                while (reader.Read())
+                {
+                    result.Add(Populate<Person>(reader));
+                }
             }
 
             return result;

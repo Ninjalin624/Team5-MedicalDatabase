@@ -1,0 +1,20 @@
+﻿@page
+@model ReportsModel
+@{
+    ViewData["Title"] = "Reports";
+}
+
+<h1>Reports</h1>
+
+<form method="post">
+    <label for="dataset"><b>Dataset</b></label>
+    <select name="dataset">
+        <option value="address">Addresses</option>
+        <option value="patient">Patients</option>
+    </select>
+
+    <label for="count"><b>Count</b></label>
+    <input type="number" name="count" min="0" max="1000" value="5" />
+
+    <input type="submit" value="Generate" />
+</form>
