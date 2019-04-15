@@ -1,0 +1,44 @@
+﻿<Properties StartupConfiguration="{DB8CA301-F70D-4CD2-A4B1-853E581149F7}|Default">
+  <MonoDevelop.Ide.ItemProperties.clinic-web PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Pages/Shared/Apnt.cshtml">
+    <Files>
+      <File FileName="README.md" Line="1" Column="1" />
+      <File FileName="Program.cs" Line="1" Column="1" />
+      <File FileName="Startup.cs" Line="13" Column="1" />
+      <File FileName=".gitignore" Line="1" Column="1" />
+      <File FileName="appsettings.Development.json" Line="1" Column="1" />
+      <File FileName="Pages/Index.cshtml" Line="1" Column="1" />
+      <File FileName="Pages/Shared/Apnt.cshtml.cs" Line="13" Column="10" />
+      <File FileName="Pages/Shared/Apnt.cshtml" Line="17" Column="23" />
+      <File FileName="Pages/Index.cshtml.cs" Line="1" Column="1" />
+      <File FileName="Pages/Privacy.cshtml.cs" Line="1" Column="1" />
+      <File FileName="Pages/Privacy.cshtml" Line="1" Column="1" />
+      <File FileName="Pages/Shared/_Layout.cshtml" Line="1" Column="1" />
+      <File FileName="Pages/Shared/_ValidationScriptsPartial.cshtml" Line="1" Column="1" />
+      <File FileName="Pages/Patients/Create.cshtml.cs" Line="16" Column="13" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="clinic-web" expanded="True">
+            <Node name="clinic-web" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True">
+                  <Node name="Microsoft.AspNetCore.App" selected="True" />
+                </Node>
+                <Node name="SdkDependencies" expanded="True" />
+              </Node>
+              <Node name="clinic-design" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
