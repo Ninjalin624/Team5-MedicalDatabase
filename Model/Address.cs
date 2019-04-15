@@ -7,12 +7,6 @@ namespace ClinicWeb.Model
 {
     public partial class Address
     {
-        public Address()
-        {
-            Office = new HashSet<Office>();
-            Person = new HashSet<Person>();
-        }
-
         public int AddressId { get; set; }
         [DisplayName("Street Address")]
         public string StreetAddress { get; set; }
@@ -20,8 +14,5 @@ namespace ClinicWeb.Model
         public string City { get; set; }
         [DisplayName("Postal Code")]
         public int PostalCode { get; set; }
-
-        public virtual ICollection<Office> Office { get; set; }
-        public virtual ICollection<Person> Person { get; set; }
     }
 }
