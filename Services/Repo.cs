@@ -46,28 +46,12 @@ namespace ClinicWeb.Services
             var result = new List<Patient>();
             for (var reader = cmd.ExecuteReader(); reader.Read();)
             {
-                var addr = new Address();
-                var per = new Person();
-                var pat = new Patient();
-
-                per.PersonId = reader.GetInt32(0);
-                pat.PatientId = reader.GetInt32(1);
-                per.FirstName = reader.GetString(2);
-                per.LastName = reader.GetString(3);
-                per.Dob = reader.GetDateTime(4);
-                per.Gender = reader.GetBoolean(5);
-                //addr.AddressId = reader.GetInt32(0);
-                addr.StreetAddress = reader.GetString(6);
-                addr.City = reader.GetString(7);
-                addr.State = reader.GetString(8);
-                addr.PostalCode = reader.GetInt32(9);
-                per.Phone = reader.GetString(10);
-                pat.PrimaryOfficeId = reader.GetInt32(11);
-
-                per.Address = addr;
+                var per = Populate<Person>(reader);
+                per.Address = Populate<Address>(reader);
+                var pat = Populate<Patient>(reader);
                 pat.Person = per;
-                result.Add(pat);
 
+                result.Add(pat);
             }
             return result;
         }
@@ -136,8 +120,9 @@ namespace ClinicWeb.Services
                 var colName = PascalCaseToSnakeCase(property.Name);
                 if (!colNames.Contains(colName)) continue;
 
-                object value = reader[colName];
-                var actual = Convert.ChangeType(value, property.PropertyType);
+                var value = reader[colName];
+                var type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
+                var actual = (value == null) ? null : Convert.ChangeType(value, type);
                 property.SetValue(obj, actual);
             }
 
