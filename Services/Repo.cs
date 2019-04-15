@@ -157,6 +157,27 @@ namespace ClinicWeb.Services
             return result;
         }
 
+        public IEnumerable<Office> ReadOffices()
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM (address a JOIN office o)
+                                WHERE (a.address_id = o.address_id)";
+            cmd.ExecuteNonQuery();
+
+            var result = new List<Office>();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var office = Populate<Office>(reader);
+                    office.Address = Populate<Address>(reader);
+                    result.Add(office);
+                }
+            }
+
+            return result;
+        }
+
         private T Populate<T>(MySqlDataReader reader) where T : new()
         {
             var obj = new T();
