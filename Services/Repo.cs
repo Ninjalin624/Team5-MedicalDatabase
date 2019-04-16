@@ -178,6 +178,71 @@ namespace ClinicWeb.Services
             return result;
         }
 
+        public IEnumerable<Doctor> ReadDoctors()
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT per.person_id, doc.doctor_id, doc.specialization_id, per.first_name, per.last_name, 
+                                per.dob, per.gender, addr.street_address, addr.city, addr.state, 
+                                addr.postal_code, per.phone FROM((person per JOIN doctor doc) JOIN address addr)
+                                WHERE ((per.person_id = doc.person_id) AND (per.address_id = addr.address_id))";
+            cmd.ExecuteNonQuery();
+
+            var result = new List<Doctor>();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var per = Populate<Person>(reader);
+                    per.Address = Populate<Address>(reader);
+                    var doc = Populate<Doctor>(reader);
+                    doc.Person = per;
+
+                    result.Add(doc);
+                }
+            }
+
+            return result;
+        }
+
+        public Doctor GetDoctor(int docID)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT per.person_id, doc.doctor_id, per.first_name, per.last_name, 
+                                per.dob, per.gender, addr.street_address, addr.city, addr.state, 
+                                addr.postal_code, per.phone, doc.specialization_id, addr.address_id FROM((person per JOIN doctor doc) JOIN address addr)
+                                WHERE ((@docID = doc.doctor_id) AND (per.person_id = doc.person_id) AND (per.address_id = addr.address_id))";
+            cmd.Parameters.Add("@docID", MySqlDbType.Int32).Value = docID;
+            cmd.ExecuteNonQuery();
+
+            var result = new Doctor();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var addr = new Address();
+                    var per = new Person();
+
+                    result.PersonId = reader.GetInt32(0);
+                    result.DoctorId = reader.GetInt32(1);
+                    per.FirstName = reader.GetString(2);
+                    per.LastName = reader.GetString(3);
+                    per.Dob = reader.GetDateTime(4);
+                    per.Gender = reader.GetBoolean(5);
+                    addr.StreetAddress = reader.GetString(6);
+                    addr.City = reader.GetString(7);
+                    addr.State = reader.GetString(8);
+                    addr.PostalCode = reader.GetInt32(9);
+                    per.Phone = reader.GetString(10);
+                    result.SpecializationId = reader.GetInt32(11);
+                    addr.AddressId = reader.GetInt32(12);
+                    per.Address = addr;
+                    result.Person = per;
+                }
+            }
+
+            return result;
+        }
+
         private T Populate<T>(MySqlDataReader reader) where T : new()
         {
             var obj = new T();
