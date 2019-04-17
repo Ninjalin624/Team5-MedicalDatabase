@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using ClinicWeb.Model;
+using ClinicWeb.Services;
+using ClinicWeb.Resources;
 namespace ClinicWeb.Pages
 {
     public class IndexModel : PageModel
@@ -13,10 +16,11 @@ namespace ClinicWeb.Pages
         {
 
         }
-
+        
         public void OnPost()
         {
-
+             var username = Request.Form["username"];
+             var password = Request.Form["password"];
         }
     }
 }
