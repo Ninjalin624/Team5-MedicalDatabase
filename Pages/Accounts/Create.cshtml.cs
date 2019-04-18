@@ -55,7 +55,7 @@ namespace ClinicWeb.Pages.Accounts
             cmd.ExecuteNonQuery();
             cmd.CommandText = ("select Last_insert_id()");
             var id = cmd.ExecuteScalar();
-            cmd.CommandText = "INSERT INTO account(person_id, username, password) values(@ID, @Username, @Password)";
+            cmd.CommandText = "INSERT INTO account(person_id, username, password,admin) values(@ID, @Username, @Password, 0)";
             cmd.Parameters.Add("@ID", MySqlDbType.Int32).Value = id;
             cmd.Parameters.Add("@Username", MySqlDbType.String).Value = Accounts.Username;
             cmd.Parameters.Add("@Password", MySqlDbType.String).Value = Accounts.Password;
@@ -66,7 +66,7 @@ namespace ClinicWeb.Pages.Accounts
             cmd.ExecuteNonQuery();
             transaction.Commit();
             connection.Close();
-            return RedirectToPage("Accounts");
+            return RedirectToPage("/Index");
         }
     }
 }
