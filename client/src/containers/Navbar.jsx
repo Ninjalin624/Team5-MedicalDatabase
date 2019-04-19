@@ -9,12 +9,18 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
+import Typography from "@material-ui/core/Typography"
 import Toolbar from "@material-ui/core/Toolbar"
 import { withStyles } from "@material-ui/core"
 import DashboardIcon from "@material-ui/icons/Dashboard"
 import LocationCityIcon from "@material-ui/icons/LocationCity"
+import AccountBoxIcon from "@material-ui/icons/AccountBox"
 import InfoIcon from "@material-ui/icons/Info"
 import MenuIcon from "@material-ui/icons/Menu"
+
+import Cookies from 'universal-cookie'
+
+const cookies = new Cookies();
 
 const styles = theme => ({
   drawerList: {
@@ -41,6 +47,7 @@ class Navbar extends React.Component {
       showDrawer: false
     }
 
+    this.renderLogin = this.renderLogin.bind(this)
     this.openDrawer = this.openDrawer.bind(this)
     this.closeDrawer = this.closeDrawer.bind(this)
   }
@@ -53,7 +60,7 @@ class Navbar extends React.Component {
         <Toolbar className={classes.toolbar}>
           <Link className={classes.title} variant="h1" color="inherit" underline="none" href="./">MUICLINIC</Link>
           <div className={classes.right}>
-            <Button color="inherit">Login</Button>
+            {this.renderLogin()}
             <IconButton color="inherit" aria-label="Menu" onClick={this.openDrawer}>
               <MenuIcon />
             </IconButton>
@@ -79,6 +86,17 @@ class Navbar extends React.Component {
         </List>
       </SwipeableDrawer>
     </div>
+  }
+
+  renderLogin() {
+    const username = cookies.get('username');
+    if (username) {
+      return <Button color="inherit" component="a">
+        <AccountBoxIcon />
+      </Button>
+    }
+
+    return <Button color="inherit" component="a" href="/Login">Login</Button>;
   }
 
   openDrawer() { this.setState({ showDrawer: true }); }
