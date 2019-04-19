@@ -9,12 +9,12 @@ import ListItem from "@material-ui/core/ListItem"
 import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
-import Typography from "@material-ui/core/Typography"
 import Toolbar from "@material-ui/core/Toolbar"
 import { withStyles } from "@material-ui/core"
-import DashboardIcon from "@material-ui/icons/Dashboard"
-import LocationCityIcon from "@material-ui/icons/LocationCity"
 import AccountBoxIcon from "@material-ui/icons/AccountBox"
+import DashboardIcon from "@material-ui/icons/Dashboard"
+import ExitToAppIcon from "@material-ui/icons/ExitToApp"
+import LocationCityIcon from "@material-ui/icons/LocationCity"
 import InfoIcon from "@material-ui/icons/Info"
 import MenuIcon from "@material-ui/icons/Menu"
 
@@ -91,9 +91,14 @@ class Navbar extends React.Component {
   renderLogin() {
     const username = cookies.get('username');
     if (username) {
-      return <Button color="inherit" component="a">
-        <AccountBoxIcon />
-      </Button>
+      return <div>
+        <IconButton color="inherit" component="a">
+          <AccountBoxIcon />
+        </IconButton>
+        <IconButton color="inherit" component="a" href="/Logout">
+          <ExitToAppIcon />
+        </IconButton>
+      </div>
     }
 
     return <Button color="inherit" component="a" href="/Login">Login</Button>;
