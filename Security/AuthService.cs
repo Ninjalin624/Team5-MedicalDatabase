@@ -6,10 +6,26 @@ using MySql.Data.MySqlClient;
 using ClinicWeb.Model;
 using ClinicWeb.Util;
 
-namespace ClinicWeb.Services
+namespace ClinicWeb.Security
 {
     public class AuthService
     {
+        public bool CheckRouteAccess(HttpContext context)
+        {
+            var account = GetUserByUsername(context.Request.Cookies["username"]);
+            if (account == null)
+            {
+                return CheckRouteAccessForAnonymous(context);
+            }
+
+            if (account.Admin == 1)
+            {
+                return true;
+            }
+
+            return CheckRouteAccessForPatient(context);
+        }
+
         public void Login(HttpContext context, string username, string password)
         {
             var account = GetUserByUsername(username);

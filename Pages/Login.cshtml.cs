@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 using ClinicWeb.Util;
-using ClinicWeb.Services;
+using ClinicWeb.Security;
 
 namespace ClinicWeb.Pages
 {
