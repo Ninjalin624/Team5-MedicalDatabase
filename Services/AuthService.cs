@@ -4,7 +4,6 @@ using System.Security.Authentication;
 using Microsoft.AspNetCore.Http;
 using MySql.Data.MySqlClient;
 using ClinicWeb.Model;
-using ClinicWeb.Resources;
 using ClinicWeb.Util;
 
 namespace ClinicWeb.Services

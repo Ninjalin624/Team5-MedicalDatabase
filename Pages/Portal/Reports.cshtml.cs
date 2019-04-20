@@ -7,7 +7,7 @@ using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-using ClinicWeb.Resources;
+using ClinicWeb.Util;
 using ClinicWeb.Services;
 using ServiceStack.Text;
 
