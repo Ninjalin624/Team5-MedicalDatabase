@@ -25,15 +25,17 @@ namespace ClinicWeb.Pages
             if (!ModelState.IsValid)
                 return Page();
 
-            var account = new AuthService().GetUserByUsername(Username);
-            if (account == null || account.Password != Password)
+            try
+            {
+                new AuthService().Login(HttpContext, Username, Password);
+                return Redirect("/");
+            }
+            catch
             {
                 ModelState.AddModelError("Password", "Invalid username or password");
-                return Page();
             }
 
-            Response.Cookies.Append("username", Username);
-            return Redirect("/");
+            return Page();
         }
     }
 }
