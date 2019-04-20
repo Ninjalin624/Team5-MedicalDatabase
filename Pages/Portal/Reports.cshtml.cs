@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using ClinicWeb.Util;
+using ClinicWeb.Security;
 using ClinicWeb.Services;
 using ServiceStack.Text;
 
@@ -16,6 +17,14 @@ namespace ClinicWeb.Pages.Portal
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public class ReportsModel : PageModel
     {
+        public IActionResult OnGet()
+        {
+            if (!new AuthService().CheckRouteAccess(HttpContext))
+                return Redirect("/Login");
+
+            return Page();
+        }
+
         public IActionResult OnPost(string dataset, int count)
         {
             if (dataset == "address")

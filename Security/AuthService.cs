@@ -26,6 +26,23 @@ namespace ClinicWeb.Security
             return CheckRouteAccessForPatient(context);
         }
 
+        private bool CheckRouteAccessForAnonymous(HttpContext context)
+        {
+            var path = context.Request.Path;
+            Console.WriteLine(path);
+            if (path.StartsWithSegments(new PathString("/Portal")))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool CheckRouteAccessForPatient(HttpContext context)
+        {
+            return CheckRouteAccessForAnonymous(context);
+        }
+
         public void Login(HttpContext context, string username, string password)
         {
             var account = GetUserByUsername(username);
