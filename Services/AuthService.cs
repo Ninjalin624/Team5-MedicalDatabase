@@ -23,6 +23,11 @@ namespace ClinicWeb.Services
             context.Response.Cookies.Append("username", account.Username);
         }
 
+        public void Logout(HttpContext context)
+        {
+            context.Response.Cookies.Delete("username");
+        }
+
         public Account GetUserByUsername(string username)
         {
             using (var conn = new MySqlConnection(ConnectionStrings.Default))

@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
+using ClinicWeb.Services;
+
 namespace ClinicWeb.Pages
 {
     public class LogoutModel : PageModel
     {
         public IActionResult OnGet() {
-            Response.Cookies.Delete("username");
+            new AuthService().Logout(HttpContext);
             return Redirect("/");
         }
     }
