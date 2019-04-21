@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using ClinicWeb.Model;
-using ClinicWeb.Util;
+using ClinicWeb.Resources;
 using ClinicWeb.Services;
 
 namespace ClinicWeb.Pages.Directory

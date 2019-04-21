@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using ClinicWeb.Model;
 using ClinicWeb.Services;
-using ClinicWeb.Util;
+using ClinicWeb.Resources;
 
 namespace ClinicWeb.Pages.Directory
 {

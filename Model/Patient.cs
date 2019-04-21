@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 
 namespace ClinicWeb.Model
 {
@@ -9,7 +8,6 @@ namespace ClinicWeb.Model
         public int PatientId { get; set; }
         public int PersonId { get; set; }
         public int? InsuranceId { get; set; }
-        [DisplayName("Primary Office ID")]
         public int? PrimaryOfficeId { get; set; }
         public int? BloodTypeId { get; set; }
 

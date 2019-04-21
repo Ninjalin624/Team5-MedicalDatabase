@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button"
 import Typography from "@material-ui/core/Typography"
 import { withStyles } from "@material-ui/core/styles"
 
-import heroImage from "../images/hero_image.jpg"
+import heroImage from "./hero_image.jpg"
 
 const styles = theme => ({
   backdrop: {

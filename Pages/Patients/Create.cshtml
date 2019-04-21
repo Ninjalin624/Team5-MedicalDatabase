@@ -6,20 +6,20 @@
 
 <h1>Create</h1>
 
-    <form class="form-horizontal" method="post">
-        <h4>Patient</h4>
-        <hr />
+<form class="form-horizontal" method="post">
+    <h4>Patient</h4>
+    <hr />
 
-        <div class="row">
-            <div class="col-md-4">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Patient.Person.FirstName, new { @class = "control-label" })
-                    @Html.EditorFor(m => m.Patient.Person.FirstName)
-                    @Html.ValidationMessageFor(m => m.Patient.Person.FirstName)
-                </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Patient.Person.FirstName, new { @class = "control-label" })
+                @Html.EditorFor(m => m.Patient.Person.FirstName)
+                @Html.ValidationMessageFor(m => m.Patient.Person.FirstName)
             </div>
+        </div>
 
-            <div class="col-md-4">
+        <div class="col-md-4">
             <div class="form-group">
                 @Html.LabelFor(m => m.Patient.Person.LastName, new { @class = "control-label" })
                 @Html.EditorFor(m => m.Patient.Person.LastName)
