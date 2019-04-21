@@ -8,7 +8,7 @@ namespace ClinicWeb.Model
 {
     public class AppointmentService
     {
-        public IEnumerable<Appointment> FindUpcomingAppointmentsWithPerson(int personId, int count)
+        public IEnumerable<Appointment> FindAppointmentsWithPerson(int personId, int count)
         {
             using (var conn = new MySqlConnection(ConnectionStrings.Default))
             {
@@ -17,8 +17,7 @@ namespace ClinicWeb.Model
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = @"SELECT *
                                     FROM `appointment`
-                                    WHERE approved = true
-                                    AND (
+                                    WHERE (
                                         EXISTS (
                                             SELECT doctor_id
                                             FROM `doctor`
@@ -30,7 +29,7 @@ namespace ClinicWeb.Model
                                             WHERE person_id = @personId
                                         )
                                     )
-                                    AND date >= CURRENT_TIMESTAMP
+                                    ORDER BY date DESC
                                     LIMIT @count;";
                 cmd.Parameters.AddWithValue("@personId", personId);
                 cmd.Parameters.AddWithValue("@count", count);

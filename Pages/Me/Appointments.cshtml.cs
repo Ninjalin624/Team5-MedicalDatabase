@@ -9,19 +9,20 @@ using ClinicWeb.Security;
 using ClinicWeb.Util;
 using ClinicWeb.Services;
 
-namespace ClinicWeb.Pages.Portal.Appointments
+namespace ClinicWeb.Pages.Me
 {
-    public class UpcomingModel : PageModel
+    public class AppointmentsModel : PageModel
     {
         public IEnumerable<Appointment> Appointments { get; set; }
 
         public IActionResult OnGet()
         {
-            if (!new AuthService().CheckRouteAccess(HttpContext))
-                return Redirect("/Login");
+            var authService = new AuthService();
+            var account = authService.GetSessionAccount(HttpContext);
+            if (account == null)
+                return Unauthorized();
 
-            var account = new AuthService().GetSessionAccount(HttpContext);
-            Appointments = new AppointmentService().FindUpcomingAppointmentsWithPerson(account.PersonId, 100);
+            Appointments = new AppointmentService().FindAppointmentsWithPerson(account.PersonId, 100);
 
             return Page();
         }
