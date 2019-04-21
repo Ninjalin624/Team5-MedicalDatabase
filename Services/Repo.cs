@@ -243,6 +243,26 @@ namespace ClinicWeb.Services
             return result;
         }
 
+        public Office GetOffice(int officeID)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM (address a JOIN office o)
+                                WHERE ((@OfficeID = o.office_id) AND (a.address_id = o.address_id))";
+            cmd.Parameters.Add("@OfficeID", MySqlDbType.Int32).Value = officeID;
+            cmd.ExecuteNonQuery();
+            var result = new Office();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var office = Populate<Office>(reader);
+                    office.Address = Populate<Address>(reader);
+                    result = office;
+                }
+            }
+            return result;
+        }
+
         private T Populate<T>(MySqlDataReader reader) where T : new()
         {
             var obj = new T();

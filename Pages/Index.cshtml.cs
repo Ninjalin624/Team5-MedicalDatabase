@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 using ClinicWeb.Model;
 using ClinicWeb.Services;
-using ClinicWeb.Resources;
+using ClinicWeb.Util;
 namespace ClinicWeb.Pages
 {
     public class IndexModel : PageModel
