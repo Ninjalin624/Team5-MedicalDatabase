@@ -12,7 +12,7 @@ namespace ClinicWeb.Security
     {
         public bool CheckRouteAccess(HttpContext context)
         {
-            var account = GetUserByUsername(context.Request.Cookies["username"]);
+            var account = GetSessionAccount(context);
             if (account == null)
             {
                 return CheckRouteAccessForAnonymous(context);
@@ -29,7 +29,6 @@ namespace ClinicWeb.Security
         private bool CheckRouteAccessForAnonymous(HttpContext context)
         {
             var path = context.Request.Path;
-            Console.WriteLine(path);
             if (path.StartsWithSegments(new PathString("/Portal")))
             {
                 return false;
@@ -40,12 +39,12 @@ namespace ClinicWeb.Security
 
         private bool CheckRouteAccessForPatient(HttpContext context)
         {
-            return CheckRouteAccessForAnonymous(context);
+            return true;
         }
 
         public void Login(HttpContext context, string username, string password)
         {
-            var account = GetUserByUsername(username);
+            var account = GetAccountByUsername(username);
             if (account == null)
                 throw new ArgumentException("Invalid username");
 
@@ -60,7 +59,21 @@ namespace ClinicWeb.Security
             context.Response.Cookies.Delete("username");
         }
 
-        public Account GetUserByUsername(string username)
+        public Account GetSessionAccount(HttpContext context)
+        {
+            var username = GetSessionUsername(context);
+            if (username == null)
+                return null;
+
+            return GetAccountByUsername(username);
+        }
+
+        public string GetSessionUsername(HttpContext context)
+        {
+            return context.Request.Cookies["username"];
+        }
+
+        private Account GetAccountByUsername(string username)
         {
             using (var conn = new MySqlConnection(ConnectionStrings.Default))
             {
