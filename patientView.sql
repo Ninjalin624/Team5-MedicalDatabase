@@ -2,7 +2,7 @@ CREATE OR REPLACE VIEW patient_list_v AS
 SELECT
 per.person_id AS 'USER_ID',
 pat.patient_id AS 'PATIENT_ID',
-per.first_name AS 'FIRS_NAME',
+per.first_name AS 'FIRST_NAME',
 per.last_name AS 'LAST_NAME',
 per.dob AS 'DOB',
 per.gender AS 'GENDER',
