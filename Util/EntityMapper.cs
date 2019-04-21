@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 using System.Data;
 
 namespace ClinicWeb.Util
@@ -31,6 +32,17 @@ namespace ClinicWeb.Util
         {
             var underscoreConnected = string.Concat(str.Select((c, i) => (i != 0 && char.IsUpper(c)) ? "_" + c.ToString() : c.ToString()));
             return underscoreConnected.ToLower();
+        }
+
+        public List<T> MapList<T>(IDataReader reader) where T : new()
+        {
+            var result = new List<T>();
+            while (reader.Read())
+            {
+                result.Add(Map<T>(reader));
+            }
+
+            return result;
         }
     }
 }
