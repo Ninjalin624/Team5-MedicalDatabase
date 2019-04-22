@@ -107,9 +107,9 @@ class Navbar extends React.Component {
         <ListItemIcon><AccountBoxIcon /></ListItemIcon>
         <ListItemText primary="Register" />
       </ListItem>}
-      <ListItem button component="a" href="/Offices">
+      <ListItem button component="a" href="/Locations/Index">
         <ListItemIcon><LocationCityIcon /></ListItemIcon>
-        <ListItemText primary="Offices" />
+        <ListItemText primary="Locations" />
       </ListItem>
       {access >= 1 && <ListItem button component="a" href="/Doctors/Index">
         <ListItemIcon><InfoIcon /></ListItemIcon>
