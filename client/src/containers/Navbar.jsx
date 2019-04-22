@@ -59,7 +59,7 @@ class Navbar extends React.Component {
     return <div>
       <AppBar position="fixed">
         <Toolbar className={classes.toolbar}>
-          <Link className={classes.title} variant="h1" color="inherit" underline="none" href="./">MUICLINIC</Link>
+          <Link className={classes.title} variant="h1" color="inherit" underline="none" href="/Index">MUICLINIC</Link>
           <div className={classes.right}>
             {this.renderLogin()}
             <IconButton color="inherit" aria-label="Menu" onClick={this.openDrawer}>
