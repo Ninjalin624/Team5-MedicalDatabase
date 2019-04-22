@@ -29,7 +29,7 @@ namespace ClinicWeb.Model
                                             WHERE person_id = @personId
                                         )
                                     )
-                                    ORDER BY date DESC
+                                    ORDER BY start_time DESC
                                     LIMIT @count;";
                 cmd.Parameters.AddWithValue("@personId", personId);
                 cmd.Parameters.AddWithValue("@count", count);

@@ -12,7 +12,6 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Date</th>
                     <th scope="col">Office</th>
                     <th scope="col">Start Time</th>
                     <th scope="col">End Time</th>
@@ -25,13 +24,12 @@
             @foreach (Appointment appointment in Model.Appointments)
             {
                 <tr>
-                    <td>@(appointment.Date)</td>
                     <td>@(appointment.OfficeId)</td>
                     <td>@(appointment.StartTime)</td>
-                    <td>@(appointment.EndTime ?? new TimeSpan())</td>
+                    <td>@(appointment.EndTime != null ? appointment.EndTime.ToString() : "N/A")</td>
                     <td>@(appointment.DoctorId)</td>
-                    <td>@((appointment.Approved ?? false) ? "Yes" : "No")</td>
-                    <td>@((appointment.Canceled ?? false) ? "Yes" : "No")</td>
+                    <td>@(appointment.Approved ? "Yes" : "No")</td>
+                    <td>@(appointment.Canceled ? "Yes" : "No")</td>
                 </tr>
             }
             </tbody>
