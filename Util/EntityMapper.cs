@@ -23,7 +23,6 @@ namespace ClinicWeb.Util
                 if (value is DBNull)
                     value = null;
 
-                Console.WriteLine(colName);
                 var type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
                 var actual = (value == null) ? null : Convert.ChangeType(value, type);
                 property.SetValue(obj, actual);
