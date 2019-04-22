@@ -38,6 +38,27 @@ namespace ClinicWeb.Services
             return result;
         }
 
+        public Diagnosis GetDiagnosis(int id)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM (diagnosis d JOIN condition_t c)
+                                WHERE ((@DiagnosisID = d.diagnosis_id) AND (d.condition_id = c.condition_id))";
+            cmd.Parameters.Add("@DiagnosisID", MySqlDbType.Int32).Value = id;
+            cmd.ExecuteNonQuery();
+            var result = new Diagnosis();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var condition = Populate<Condition>(reader);
+                    var diagnosis = Populate<Diagnosis>(reader);
+                    diagnosis.Condition = condition;
+                    result = diagnosis;
+                }
+            }
+            return result;
+        }
+
         public string ReadPatientsCSV(int count = 5)
         {
             var cmd = connection.CreateCommand();
@@ -263,6 +284,55 @@ namespace ClinicWeb.Services
             return result;
         }
 
+        /*public IEnumerable<Appointment> ReadAppointments()
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM (appointment a JOIN (patient p JOIN person per) JOIN (doctor doc JOIN person pers) JOIN (office o JOIN address addr))
+                                WHERE (a.patient_id = p.patient_id) AND (p.person_id = per.person_id) AND (a.doctor_id = doc.doctor_id)
+                                        AND (doc.person_id = pers.person_id) AND (a.office_id = o.office_id) AND (o.address_id = addr.address_id)";
+            cmd.ExecuteNonQuery();
+            var result = new List<Appointment>();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                   var patient = Populate<Patient>(reader);
+                    var doc = Populate<Doctor>(reader);
+                    var office = Populate<Office>(reader);
+                    var app = Populate<Appointment>(reader);
+                    app.Doctor = doc;
+                   app.Patient = patient;
+                    app.Office = office;
+
+                    result.Add(app);
+                }
+            }
+            return result;
+
+
+        }*/
+        public IEnumerable<Diagnosis> ReadDiagnosis(int id)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM (diagnosis d JOIN condition_t c) WHERE ((@PatientID = d.patient_id) AND (d.condition_id = c.condition_id))";
+            cmd.Parameters.Add("@PatientID", MySqlDbType.Int32).Value = id;
+            cmd.ExecuteNonQuery();
+
+            var result = new List<Diagnosis>();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var condition = Populate<Condition>(reader);
+                    var diagnosis = Populate<Diagnosis>(reader);
+                    diagnosis.Condition = condition;
+                    result.Add(diagnosis);
+                }
+            }
+
+            return result;
+        }
+
         private T Populate<T>(MySqlDataReader reader) where T : new()
         {
             var obj = new T();
@@ -284,6 +354,7 @@ namespace ClinicWeb.Services
             return obj;
         }
 
+    
         private string PascalCaseToSnakeCase(string str)
         {
             var underscoreConnected = string.Concat(str.Select((c, i) => (i != 0 && char.IsUpper(c)) ? "_" + c.ToString() : c.ToString()));
