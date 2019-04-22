@@ -16,17 +16,19 @@ namespace ClinicWeb.Model
 
                 var cmd = conn.CreateCommand();
                 cmd.CommandText = @"SELECT *
-                                    FROM `appointment`
+                                    FROM `appointment` a
                                     WHERE (
                                         EXISTS (
                                             SELECT doctor_id
                                             FROM `doctor`
                                             WHERE person_id = @personId
+                                            AND doctor_id = a.doctor_id
                                         )
                                         OR EXISTS (
                                             SELECT patient_id
                                             FROM `patient`
                                             WHERE person_id = @personId
+                                            AND patient_id = a.patient_id
                                         )
                                     )
                                     ORDER BY start_time DESC
