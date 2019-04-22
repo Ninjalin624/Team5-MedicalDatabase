@@ -10,6 +10,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon"
 import ListItemText from "@material-ui/core/ListItemText"
 import SwipeableDrawer from "@material-ui/core/SwipeableDrawer"
 import Toolbar from "@material-ui/core/Toolbar"
+import Tooltip from "@material-ui/core/Tooltip"
 import { withStyles } from "@material-ui/core"
 import AccountBoxIcon from "@material-ui/icons/AccountBox"
 import DashboardIcon from "@material-ui/icons/Dashboard"
@@ -92,12 +93,16 @@ class Navbar extends React.Component {
     const username = cookies.get('username');
     if (username) {
       return <div>
-        <IconButton color="inherit" component="a">
-          <AccountBoxIcon />
-        </IconButton>
-        <IconButton color="inherit" component="a" href="/Logout">
-          <ExitToAppIcon />
-        </IconButton>
+        <Tooltip title="Me">
+          <IconButton color="inherit" component="a" href="/Me">
+            <AccountBoxIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Logout">
+          <IconButton color="inherit" component="a" href="/Logout">
+            <ExitToAppIcon />
+          </IconButton>
+        </Tooltip>
       </div>
     }
 
