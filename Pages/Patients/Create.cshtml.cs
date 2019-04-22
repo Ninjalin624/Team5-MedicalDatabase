@@ -5,15 +5,21 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ClinicWeb.Model;
+using ClinicWeb.Security;
 using MySql.Data.MySqlClient;
 
 namespace ClinicWeb.Pages.Patients
 {
     public class CreateModel : PageModel
     {
-        public void OnGet()
+        public IActionResult OnGet()
         {
+            var authService = new AuthService();
+            var account = authService.GetSessionAccount(HttpContext);
+            if (account == null || account.GetAccessLevel() < AccessLevel.Admin)
+                return Unauthorized();
 
+            return Page();
         }
         [BindProperty]
         public Patient Patient { get; set; }
