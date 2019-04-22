@@ -37,7 +37,26 @@ namespace ClinicWeb.Services
 
             return result;
         }
-        
+
+        public Prescription GetPrescription(int id)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM prescription
+                                WHERE (@PrescriptionID = prescription.prescription_id) ";
+            cmd.Parameters.Add("@PrescriptionID", MySqlDbType.Int32).Value = id;
+            cmd.ExecuteNonQuery();
+            var result = new Prescription();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var rx = Populate<Prescription>(reader);
+                    result = rx;
+                }
+            }
+            return result;
+        }
+
         public MedicalTest GetMedicalTest(int id)
         {
             var cmd = connection.CreateCommand();
