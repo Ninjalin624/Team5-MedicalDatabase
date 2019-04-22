@@ -1,10 +1,9 @@
-import React from "react"
+import React, { Suspense } from "react"
 import ReactDOM from "react-dom"
 
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles"
 
-import Hero from "./components/Hero"
-import Navbar from "./containers/Navbar"
+import ContainerNavbar from "./containers/Navbar";
 
 const theme = createMuiTheme({
   typography: {
@@ -12,14 +11,15 @@ const theme = createMuiTheme({
   }
 });
 
-const Home = (props) => (
+const Navbar = (props) => (
   <MuiThemeProvider theme={theme}>
-    <Navbar />
-    <Hero />
+    <Suspense fallback={<div>Loading header...</div>}>
+      <ContainerNavbar />
+    </Suspense>
   </MuiThemeProvider>
 );
 
 ReactDOM.render(
-  <Home />,
-  document.getElementById("root")
+  <Navbar />,
+  document.getElementById("navbar")
 );
