@@ -12,5 +12,5 @@ addr.postal_code AS 'ZIP_CODE',
 per.phone AS 'PHONE'
 FROM person AS per, address AS addr
 WHERE per.address_id = addr.address_id;
-    
+
 SELECT * FROM person_list_v;
