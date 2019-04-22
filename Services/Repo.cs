@@ -38,6 +38,25 @@ namespace ClinicWeb.Services
             return result;
         }
 
+        public BloodType GetBloodType(int id)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM (blood_type bt JOIN patient p)
+                                WHERE ((@BloodTypeID = bt.blood_type_id) AND (bt.blood_type_id = p.blood_type_id))";
+            cmd.Parameters.Add("@BloodTypeID", MySqlDbType.Int32).Value = id;
+            cmd.ExecuteNonQuery();
+            var result = new BloodType();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var blood_type = Populate<BloodType>(reader);
+                    result = blood_type;
+                }
+            }
+            return result;
+        }
+
         public Diagnosis GetDiagnosis(int id)
         {
             var cmd = connection.CreateCommand();
