@@ -1,15 +1,14 @@
 ﻿@page
 @model ClinicWeb.Pages.Doctors.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Doctors";
 }
 
 @using ClinicWeb.Security
 
 <div class="card">
     <div class="card-body">
-        <h3 class="card-title">Doctor List</h3>
-        <br />
+        <h3 class="card-title">@ViewData["Title"]</h3>
         @if (SessionIsAdmin())
         {
             <a asp-page="Create">Create New Doctor</a>
