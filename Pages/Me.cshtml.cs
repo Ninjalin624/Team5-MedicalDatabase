@@ -14,8 +14,9 @@ namespace ClinicWeb.Pages
         public IActionResult OnGet()
         {
             var authService = new AuthService();
-            if (!authService.CheckRouteAccess(HttpContext))
-                return Unauthorized();
+            var account = authService.GetSessionAccount(HttpContext);
+            if (account == null || account.GetAccessLevel() < AccessLevel.Patient)
+                return Redirect("/Login");
 
             return Page();
         }

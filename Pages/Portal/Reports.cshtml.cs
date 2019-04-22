@@ -19,7 +19,9 @@ namespace ClinicWeb.Pages.Portal
     {
         public IActionResult OnGet()
         {
-            if (!new AuthService().CheckRouteAccess(HttpContext))
+            var authService = new AuthService();
+            var account = authService.GetSessionAccount(HttpContext);
+            if (account == null || account.GetAccessLevel() < AccessLevel.Admin)
                 return Redirect("/Login");
 
             return Page();

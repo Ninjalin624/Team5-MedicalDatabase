@@ -19,8 +19,8 @@ namespace ClinicWeb.Pages.Me
         {
             var authService = new AuthService();
             var account = authService.GetSessionAccount(HttpContext);
-            if (account == null)
-                return Unauthorized();
+            if (account == null || account.GetAccessLevel() < AccessLevel.Patient)
+                return Redirect("/Login");
 
             Appointments = new AppointmentService().FindAppointmentsWithPerson(account.PersonId, 100);
 

@@ -11,46 +11,6 @@ namespace ClinicWeb.Security
 {
     public class AuthService
     {
-        public bool CheckRouteAccess(HttpContext context)
-        {
-            var account = GetSessionAccount(context);
-            if (account == null)
-            {
-                return CheckRouteAccessForAnonymous(context);
-            }
-
-            if (account.Admin == 1)
-            {
-                return true;
-            }
-
-            return CheckRouteAccessForPatient(context);
-        }
-
-        private bool CheckRouteAccessForAnonymous(HttpContext context)
-        {
-            var path = context.Request.Path;
-            if (path.Equals(new PathString("/"))
-                || path.Equals(new PathString("/Offices")))
-                return true;
-
-            return false;
-        }
-
-        private bool CheckRouteAccessForPatient(HttpContext context)
-        {
-            var allowedDirs = new PathString[] {
-                new PathString("/Portal"),
-                new PathString("/Me")
-            };
-
-            var path = context.Request.Path;
-            if (Enumerable.Any(allowedDirs, route => path.StartsWithSegments(route)))
-                return true;
-
-            return CheckRouteAccessForAnonymous(context);
-        }
-
         public void Login(HttpContext context, string username, string password)
         {
             var account = GetAccountByUsername(username);
@@ -77,7 +37,7 @@ namespace ClinicWeb.Security
             return GetAccountByUsername(username);
         }
 
-        public string GetSessionUsername(HttpContext context)
+        private string GetSessionUsername(HttpContext context)
         {
             return context.Request.Cookies["username"];
         }
