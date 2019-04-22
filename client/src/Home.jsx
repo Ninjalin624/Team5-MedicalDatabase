@@ -1,19 +1,14 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
-import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles"
+import { MuiThemeProvider } from "@material-ui/core/styles"
+import DefaultTheme from "./themes/Default"
 
 import Hero from "./components/Hero"
 import Navbar from "./containers/Navbar"
 
-const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true
-  }
-});
-
 const Home = (props) => (
-  <MuiThemeProvider theme={theme}>
+  <MuiThemeProvider theme={DefaultTheme}>
     <Navbar />
     <Hero />
   </MuiThemeProvider>

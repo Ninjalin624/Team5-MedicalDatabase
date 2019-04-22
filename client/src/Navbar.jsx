@@ -2,20 +2,13 @@ import React, { Suspense } from "react"
 import ReactDOM from "react-dom"
 
 import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles"
+import DefaultTheme from "./themes/Default"
 
 import ContainerNavbar from "./containers/Navbar";
 
-const theme = createMuiTheme({
-  typography: {
-    useNextVariants: true
-  }
-});
-
 const Navbar = (props) => (
-  <MuiThemeProvider theme={theme}>
-    <Suspense fallback={<div>Loading header...</div>}>
-      <ContainerNavbar />
-    </Suspense>
+  <MuiThemeProvider theme={DefaultTheme}>
+    <ContainerNavbar />
   </MuiThemeProvider>
 );
 
