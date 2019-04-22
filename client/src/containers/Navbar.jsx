@@ -99,9 +99,14 @@ class Navbar extends React.Component {
 
   renderDrawer() {
     const { classes } = this.props;
+    const username = cookies.get('username');
     const access = cookies.get('access');
 
     return <List className={classes.drawerList}>
+      {!username && <ListItem button component="a" href="/Accounts/Create">
+        <ListItemIcon><AccountBoxIcon /></ListItemIcon>
+        <ListItemText primary="Register" />
+      </ListItem>}
       <ListItem button component="a" href="/Offices">
         <ListItemIcon><LocationCityIcon /></ListItemIcon>
         <ListItemText primary="Offices" />
