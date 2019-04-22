@@ -19,6 +19,8 @@ namespace ClinicWeb.Pages.MedicalTests
         private MySqlConnection connection;
         public void OnGet(int id)
         {
+            Tests = new List<MedicalTest>();
+
             using (var repo = new Repo(ConnectionStrings.Default))
             {
                 Patient = repo.GetPatient(id);
