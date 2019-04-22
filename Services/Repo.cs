@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 using MySql.Data.MySqlClient;
 using ClinicWeb.Model;
+using ClinicWeb.Util;
 
 namespace ClinicWeb.Services
 {
@@ -478,23 +479,7 @@ namespace ClinicWeb.Services
 
         private T Populate<T>(MySqlDataReader reader) where T : new()
         {
-            var obj = new T();
-            var objType = obj.GetType();
-            var colNames = Enumerable.Range(0, reader.FieldCount)
-                .Select(i => reader.GetName(i));
-
-            foreach (var property in objType.GetProperties())
-            {
-                var colName = PascalCaseToSnakeCase(property.Name);
-                if (!colNames.Contains(colName)) continue;
-
-                var value = reader[colName];
-                var type = Nullable.GetUnderlyingType(property.PropertyType) ?? property.PropertyType;
-                var actual = (value == null) ? null : Convert.ChangeType(value, type);
-                property.SetValue(obj, actual);
-            }
-
-            return obj;
+            return new EntityMapper().Map<T>(reader);
         }
 
     
