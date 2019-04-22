@@ -54,7 +54,8 @@ namespace ClinicWeb.Pages.MedicalDiagnosis
             cmd.ExecuteNonQuery();
             transaction.Commit();
             connection.Close();
-            return RedirectToPage("/patients/patientinfo");
+            return RedirectToPage("/MedicalDiagnosis/View");
+            //return RedirectToPage("/patients/patientinfo");
 
         }
     }
