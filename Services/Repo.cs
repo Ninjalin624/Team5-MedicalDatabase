@@ -371,7 +371,8 @@ namespace ClinicWeb.Services
         public IEnumerable<Diagnosis> ReadDiagnosis(int id)
         {
             var cmd = connection.CreateCommand();
-            cmd.CommandText = @"SELECT * FROM (diagnosis d JOIN condition_t c) WHERE ((@PatientID = d.patient_id) AND (d.condition_id = c.condition_id))";
+            cmd.CommandText = @"SELECT * FROM (diagnosis d JOIN condition_t c)
+                                WHERE ((@PatientID = d.patient_id) AND (d.condition_id = c.condition_id))";
             cmd.Parameters.Add("@PatientID", MySqlDbType.Int32).Value = id;
             cmd.ExecuteNonQuery();
 
@@ -384,6 +385,27 @@ namespace ClinicWeb.Services
                     var diagnosis = Populate<Diagnosis>(reader);
                     diagnosis.Condition = condition;
                     result.Add(diagnosis);
+                }
+            }
+
+            return result;
+        }
+
+        public IEnumerable<MedicalTest> ReadMedicalTest(int id)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM (medical_test mt JOIN patient p)
+                                WHERE ((@PatientID = p.patient_id) AND (mt.patient_id = p.patient_id))";
+            cmd.Parameters.Add("@PatientID", MySqlDbType.Int32).Value = id;
+            cmd.ExecuteNonQuery();
+
+            var result = new List<MedicalTest>();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var test = Populate<MedicalTest>(reader);
+                    result.Add(test);
                 }
             }
 
