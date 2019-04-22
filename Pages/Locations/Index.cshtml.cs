@@ -18,11 +18,6 @@ namespace ClinicWeb.Pages.Offices
 
         public IActionResult OnGet()
         {
-            var authService = new AuthService();
-            var account = authService.GetSessionAccount(HttpContext);
-            if (account == null || account.GetAccessLevel() < AccessLevel.Patient)
-                return Unauthorized();
-
             using (var repo = new Repo(ConnectionStrings.Default))
             {
                 Offices = repo.ReadOffices();
