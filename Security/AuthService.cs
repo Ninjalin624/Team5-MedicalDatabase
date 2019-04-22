@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Security.Authentication;
 
 using Microsoft.AspNetCore.Http;
@@ -29,17 +30,25 @@ namespace ClinicWeb.Security
         private bool CheckRouteAccessForAnonymous(HttpContext context)
         {
             var path = context.Request.Path;
-            if (path.StartsWithSegments(new PathString("/Portal")))
-            {
-                return false;
-            }
+            if (path.Equals(new PathString("/"))
+                || path.Equals(new PathString("/Offices")))
+                return true;
 
-            return true;
+            return false;
         }
 
         private bool CheckRouteAccessForPatient(HttpContext context)
         {
-            return true;
+            var allowedDirs = new PathString[] {
+                new PathString("/Portal"),
+                new PathString("/Me")
+            };
+
+            var path = context.Request.Path;
+            if (Enumerable.Any(allowedDirs, route => path.StartsWithSegments(route)))
+                return true;
+
+            return CheckRouteAccessForAnonymous(context);
         }
 
         public void Login(HttpContext context, string username, string password)
