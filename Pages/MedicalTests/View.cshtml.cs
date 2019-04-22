@@ -24,7 +24,7 @@ namespace ClinicWeb.Pages.MedicalTests
             using (var repo = new Repo(ConnectionStrings.Default))
             {
                 Patient = repo.GetPatient(id);
-                //Diagnosis = repo.ReadDiagnosis(id);
+                Tests = repo.ReadMedicalTest(id);
             }
         }
     }
