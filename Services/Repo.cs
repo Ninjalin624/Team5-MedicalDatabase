@@ -37,6 +37,44 @@ namespace ClinicWeb.Services
 
             return result;
         }
+        
+        public MedicalTest GetMedicalTest(int id)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM (medical_test mt JOIN patient p)
+                                WHERE ((@MedicalTestID = mt.medical_test_id) AND (mt.patient_id = p.patient_id))";
+            cmd.Parameters.Add("@MedicalTestID", MySqlDbType.Int32).Value = id;
+            cmd.ExecuteNonQuery();
+            var result = new MedicalTest();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var blood_type = Populate<MedicalTest>(reader);
+                    result = blood_type;
+                }
+            }
+            return result;
+        }
+
+        public IEnumerable<Prescription> ReadPrescriptions(int id)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM prescription
+                                WHERE (@PatientID = prescription.patient_id) ";
+            cmd.Parameters.Add("@PatientID", MySqlDbType.Int32).Value = id;
+            cmd.ExecuteNonQuery();
+            var result = new List<Prescription>();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var rx = Populate<Prescription>(reader);
+                    result.Add(rx);
+                }
+            }
+            return result;
+        }
 
         public BloodType GetBloodType(int id)
         {

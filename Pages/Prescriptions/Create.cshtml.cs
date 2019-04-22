@@ -9,16 +9,12 @@ using MySql.Data.MySqlClient;
 using ClinicWeb.Services;
 using ClinicWeb.Util;
 
-namespace ClinicWeb.Pages.MedicalDiagnosis
+namespace ClinicWeb.Pages.Prescriptions
 {
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public Diagnosis Diagnosis { get; set; }
-        [BindProperty]
-        public Condition Condition { get; set; }
-        [BindProperty]
-        public IEnumerable<Office> Office { get; set; }
+        public Prescription Prescription { get; set; }
         [BindProperty]
         public IEnumerable<Doctor> Doctor { get; set; }
         [BindProperty]
@@ -39,8 +35,8 @@ namespace ClinicWeb.Pages.MedicalDiagnosis
             {
                 return Page();
             }
-            var connStr = "Database=clinicdb; Data Source=team5med-db.mysql.database.azure.com; User Id=Team5DBAdmin@team5med-db; Password=Clinic123;Allow User Variables=True";
-            connection = new MySqlConnection(connStr);
+            
+            connection = new MySqlConnection(ConnectionStrings.Default);
             connection.Open();
             var cmd = connection.CreateCommand();
             MySqlTransaction transaction;
@@ -48,21 +44,18 @@ namespace ClinicWeb.Pages.MedicalDiagnosis
             cmd.Connection = connection;
             cmd.Transaction = transaction;
 
-            cmd.CommandText = @"INSERT INTO condition_t(condition_name, condition_description)
-                                values(@ConditionName, @ConditionDescription)";
-            cmd.Parameters.Add("@ConditionName", MySqlDbType.String).Value = Condition.ConditionName;
-            cmd.Parameters.Add("@ConditionDescription", MySqlDbType.String).Value = Condition.ConditionDescription;
-            cmd.ExecuteNonQuery();
-            cmd.CommandText = @"INSERT INTO diagnosis(doctor_id, patient_id, condition_id, details)
-                                values(@DoctorID, @PatientID, last_insert_id(), @Details)";
-            cmd.Parameters.Add("@DoctorID", MySqlDbType.Int32).Value = Diagnosis.DoctorId;
+            cmd.CommandText = @"INSERT INTO prescription(doctor_id, patient_id, product, dosage, refill, instructions)
+                                values(@DoctorID, @PatientID, @Product, @Dosage, @Refill, @Instructions)";
+            cmd.Parameters.Add("@DoctorID", MySqlDbType.Int32).Value = Prescription.DoctorId;
             cmd.Parameters.Add("@PatientID", MySqlDbType.Int32).Value = Patient.PatientId;
-            cmd.Parameters.Add("@Details", MySqlDbType.Text).Value = Diagnosis.Details;
+            cmd.Parameters.Add("@Product", MySqlDbType.String).Value = Prescription.Product;
+            cmd.Parameters.Add("@Dosage", MySqlDbType.Float).Value = Prescription.Dosage;
+            cmd.Parameters.Add("@Refill", MySqlDbType.Int32).Value = Prescription.Refill;
+            cmd.Parameters.Add("@Instructions", MySqlDbType.Text).Value = Prescription.Instructions;
             cmd.ExecuteNonQuery();
             transaction.Commit();
             connection.Close();
-            return RedirectToPage("/MedicalDiagnosis/View");
-            //return RedirectToPage("/patients/patientinfo");
+            return RedirectToPage("/Patients/PatientInfo");
         }
     }
 }
