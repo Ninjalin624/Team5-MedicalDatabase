@@ -57,6 +57,25 @@ namespace ClinicWeb.Services
             return result;
         }
 
+        public IEnumerable<Prescription> ReadPrescriptions(int id)
+        {
+            var cmd = connection.CreateCommand();
+            cmd.CommandText = @"SELECT * FROM prescription
+                                WHERE (@PatientID = prescription.patient_id) ";
+            cmd.Parameters.Add("@PatientID", MySqlDbType.Int32).Value = id;
+            cmd.ExecuteNonQuery();
+            var result = new List<Prescription>();
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var rx = Populate<Prescription>(reader);
+                    result.Add(rx);
+                }
+            }
+            return result;
+        }
+
         public BloodType GetBloodType(int id)
         {
             var cmd = connection.CreateCommand();

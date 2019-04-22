@@ -9,20 +9,22 @@ using MySql.Data.MySqlClient;
 using ClinicWeb.Services;
 using ClinicWeb.Util;
 
-namespace ClinicWeb.Pages.MedicalDiagnosis
+namespace ClinicWeb.Pages.Prescriptions
 {
     public class ViewModel : PageModel
     {
-        public IEnumerable<Diagnosis> Diagnosis { get; set; }
+        [BindProperty]
+        public IEnumerable<Prescription> Prescription { get; set; }
         [BindProperty]
         public Patient Patient { get; set; }
-        
+        public Doctor Doctor { get; set; }
         public void OnGet(int id)
         {
             using (var repo = new Repo(ConnectionStrings.Default))
             {
                 Patient = repo.GetPatient(id);
-                Diagnosis = repo.ReadDiagnosis(id);
+                Prescription = repo.ReadPrescriptions(id);
+                
             }
         }
     }
