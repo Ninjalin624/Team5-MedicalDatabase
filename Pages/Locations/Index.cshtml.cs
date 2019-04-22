@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using ClinicWeb.Model;
 using ClinicWeb.Services;
 using ClinicWeb.Util;
+using ClinicWeb.Security;
 
 namespace ClinicWeb.Pages.Offices
 
@@ -15,12 +16,14 @@ namespace ClinicWeb.Pages.Offices
     {
         public IEnumerable<Office> Offices { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
             using (var repo = new Repo(ConnectionStrings.Default))
             {
                 Offices = repo.ReadOffices();
             }
+
+            return Page();
         }
     }
 }

@@ -21,11 +21,13 @@ namespace ClinicWeb.Security
                 throw new AuthenticationException("Invalid password");
 
             context.Response.Cookies.Append("username", account.Username);
+            context.Response.Cookies.Append("access", ((int) account.GetAccessLevel()).ToString());
         }
 
         public void Logout(HttpContext context)
         {
             context.Response.Cookies.Delete("username");
+            context.Response.Cookies.Delete("access");
         }
 
         public Account GetSessionAccount(HttpContext context)

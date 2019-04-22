@@ -49,6 +49,7 @@ class Navbar extends React.Component {
     }
 
     this.renderLogin = this.renderLogin.bind(this)
+    this.renderDrawer = this.renderDrawer.bind(this)
     this.openDrawer = this.openDrawer.bind(this)
     this.closeDrawer = this.closeDrawer.bind(this)
   }
@@ -57,7 +58,7 @@ class Navbar extends React.Component {
     const { classes } = this.props;
 
     return <div>
-      <AppBar position="fixed">
+      <AppBar position="static">
         <Toolbar className={classes.toolbar}>
           <Link className={classes.title} variant="h1" color="inherit" underline="none" href="/Index">MUICLINIC</Link>
           <div className={classes.right}>
@@ -71,20 +72,7 @@ class Navbar extends React.Component {
       <SwipeableDrawer anchor="right" open={this.state.showDrawer}
         onOpen={this.openDrawer}
         onClose={this.closeDrawer}>
-        <List className={classes.drawerList}>
-          <ListItem button component="a" href="/About">
-            <ListItemIcon><InfoIcon /></ListItemIcon>
-            <ListItemText primary="About" />
-          </ListItem>
-          <ListItem button component="a" href="/Offices">
-            <ListItemIcon><LocationCityIcon /></ListItemIcon>
-            <ListItemText primary="Offices" />
-          </ListItem>
-          <ListItem button component="a" href="/Portal">
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
-            <ListItemText primary="Portal" />
-          </ListItem>
-        </List>
+        {this.renderDrawer()}
       </SwipeableDrawer>
     </div>
   }
@@ -107,6 +95,30 @@ class Navbar extends React.Component {
     }
 
     return <Button color="inherit" component="a" href="/Login">Login</Button>;
+  }
+
+  renderDrawer() {
+    const { classes } = this.props;
+    const access = cookies.get('access');
+
+    return <List className={classes.drawerList}>
+      <ListItem button component="a" href="/Offices">
+        <ListItemIcon><LocationCityIcon /></ListItemIcon>
+        <ListItemText primary="Offices" />
+      </ListItem>
+      {access >= 1 && <ListItem button component="a" href="/Doctors/Index">
+        <ListItemIcon><InfoIcon /></ListItemIcon>
+        <ListItemText primary="Doctors" />
+      </ListItem>}
+      {access >= 2 && <ListItem button component="a" href="/Patients/PatientInfo">
+        <ListItemIcon><InfoIcon /></ListItemIcon>
+        <ListItemText primary="Patients" />
+      </ListItem>}
+      {access >= 2 && <ListItem button component="a" href="/Portal/Reports">
+        <ListItemIcon><InfoIcon /></ListItemIcon>
+        <ListItemText primary="Reports" />
+      </ListItem>}
+    </List>
   }
 
   openDrawer() { this.setState({ showDrawer: true }); }
