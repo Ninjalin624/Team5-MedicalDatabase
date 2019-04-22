@@ -20,7 +20,7 @@ namespace ClinicWeb.Pages.Doctors
         {
             var authService = new AuthService();
             var account = authService.GetSessionAccount(HttpContext);
-            if (account == null || account.GetAccessLevel() < AccessLevel.Admin)
+            if (account == null || account.GetAccessLevel() < AccessLevel.Patient)
                 return Unauthorized();
 
             var connStr = "Database=clinicdb; Data Source=team5med-db.mysql.database.azure.com; User Id=Team5DBAdmin@team5med-db; Password=Clinic123";
