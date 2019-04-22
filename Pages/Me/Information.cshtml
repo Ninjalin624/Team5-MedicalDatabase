@@ -1,0 +1,21 @@
+﻿@page
+@model InformationModel
+@{
+    ViewData["Title"] = "Medical Information";
+}
+
+@using ClinicWeb.Model
+
+<div class="card">
+    <div class="card-body">
+        <h3 class="card-title">@(ViewData["Title"])</h3>
+        <div class="list-group">
+            <a href="/MedicalDiagnosis/View" class="list-group-item list-group-item-action">
+                Diagnosis History
+            </a>
+            <a href="/MedicalTests/View" class="list-group-item list-group-item-action">
+                Medical Tests and Results
+            </a>
+        </div>
+    </div>
+</div>
