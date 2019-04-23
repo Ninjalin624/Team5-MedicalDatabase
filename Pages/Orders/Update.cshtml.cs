@@ -33,11 +33,10 @@ namespace ClinicWeb.Pages.Orders
             connection = new MySqlConnection(ConnectionStrings.Default);
             connection.Open();
             var cmd = connection.CreateCommand();
-            
-            
-            cmd.CommandText = @"UPDATE order SET date_arrived = @DateArrived
-                                WHERE (order_id = @OrderID)";
-            cmd.Parameters.Add("@DateArrived", MySqlDbType.Date).Value = Order.DateArrived;
+
+            var date = Order.DateArrived.ToString("yyyy-MM-dd");
+            cmd.CommandText = @"UPDATE `order` SET `date_arrived` = @DateArrived WHERE(`order_id` = @OrderID)";
+            cmd.Parameters.Add("@DateArrived", MySqlDbType.String).Value = date;
             cmd.Parameters.Add("@OrderID", MySqlDbType.Int32).Value = Order.OrderId;
             cmd.ExecuteNonQuery();
             connection.Close();
