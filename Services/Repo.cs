@@ -42,7 +42,7 @@ namespace ClinicWeb.Services
         public Order getOrder(int id)
         {
             var cmd = connection.CreateCommand();
-            cmd.CommandText = @"SELECT order_id, prescription_id, office_id, created 
+            cmd.CommandText = @"SELECT *
                                 FROM `order`
                                 WHERE (@OrderID = order.order_id)";
             cmd.Parameters.Add("@OrderID", MySqlDbType.Int32).Value = id;
@@ -53,12 +53,7 @@ namespace ClinicWeb.Services
             {
                 while (reader.Read())
                 {
-                    var order = new Order();
-
-                    order.OrderId = reader.GetInt32(0);
-                    order.PrescriptionId = reader.GetInt32(1);
-                    order.OfficeId = reader.GetInt32(2);
-                    order.Created = reader.GetDateTime(3);
+                    var order = Populate<Order>(reader);
                     result = order;
                 }
             }
@@ -68,23 +63,18 @@ namespace ClinicWeb.Services
         public IEnumerable<Order> ReadOrders()
         {
             var cmd = connection.CreateCommand();
-            cmd.CommandText = @"SELECT order_id, prescription_id, office_id, created 
+            cmd.CommandText = @"SELECT * 
                                 FROM `order`";
             cmd.ExecuteNonQuery();
 
             var result = new List<Order>();
             using (var reader = cmd.ExecuteReader())
             {
-                while (reader.Read())
-                {
-                    var order = new Order();
-
-                    order.OrderId = reader.GetInt32(0);
-                    order.PrescriptionId = reader.GetInt32(1);
-                    order.OfficeId = reader.GetInt32(2);
-                    order.Created= reader.GetDateTime(3);
-                    result.Add(order);
-                }
+                    while (reader.Read())
+                    {
+                        result.Add(Populate<Order>(reader));
+                    }
+                
             }
             return result;
         }
