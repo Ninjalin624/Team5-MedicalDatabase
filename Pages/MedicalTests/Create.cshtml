@@ -1,5 +1,5 @@
 ﻿@page
-@model ClinicWeb.Pages.MedicalDiagnosis.CreateModel
+@model ClinicWeb.Pages.MedicalTests.CreateModel
 @{
     ViewData["Title"] = "Create";
 }
@@ -12,37 +12,22 @@
     <div class="row">
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(m => m.Condition.ConditionName, new { @class = "control-label" })
-                @Html.EditorFor(m => m.Condition.ConditionName)
-                @Html.ValidationMessageFor(m => m.Condition.ConditionName)
+                @Html.LabelFor(m => m.MedicalTest.Name, new { @class = "control-label" })
+                @Html.EditorFor(m => m.MedicalTest.Name)
+                @Html.ValidationMessageFor(m => m.MedicalTest.Name)
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(m => m.Condition.ConditionDescription, new { @class = "control-label" })
-                @Html.EditorFor(m => m.Condition.ConditionDescription)
-                @Html.ValidationMessageFor(m => m.Condition.ConditionDescription)
+                @Html.LabelFor(m => m.MedicalTest.Details, new { @class = "control-label" })
+                @Html.EditorFor(m => m.MedicalTest.Details)
+                @Html.ValidationMessageFor(m => m.MedicalTest.Details)
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
             <div class="form-group">
-                @Html.LabelFor(m => m.Diagnosis.Details, new { @class = "control-label" })
-                @Html.EditorFor(m => m.Diagnosis.Details)
-                @Html.ValidationMessageFor(m => m.Diagnosis.Details)
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="form-group">
-                <label>Doctor</label>
-                <select asp-for="Diagnosis.DoctorId">
-                    @foreach (var doctor in Model.Doctor)
-                    {
-                        <option value="@doctor.DoctorId">@doctor.Person.FirstName @doctor.Person.LastName</option>
-                    }
-                </select>
-                @Html.ValidationMessageFor(m => m.Diagnosis.DoctorId)
+                @Html.LabelFor(m => m.MedicalTest.Result, new { @class = "control-label" })
+                @Html.EditorFor(m => m.MedicalTest.Result)
+                @Html.ValidationMessageFor(m => m.MedicalTest.Result)
             </div>
         </div>
     </div>

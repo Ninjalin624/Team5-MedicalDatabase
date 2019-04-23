@@ -9,17 +9,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MySql.Data.MySqlClient;
 
-namespace ClinicWeb.Pages.MedicalTests
+namespace ClinicWeb.Pages.MyBloodType
 {
     public class EditModel : PageModel
     {
         [BindProperty]
-        public MedicalTest MedicalTest { get; set; }
+        public BloodType BloodType { get; set; }
+        [BindProperty]
+        public Patient Patient { get; set; }
         public void OnGet(int id)
         {
             using (var repo = new Repo(ConnectionStrings.Default))
             {
-                MedicalTest = repo.GetMedicalTest(id);
+                Patient  = repo.GetPatient(id);
+                BloodType = repo.GetBloodType(id);
             }
         }
         private MySqlConnection connection;
@@ -37,17 +40,14 @@ namespace ClinicWeb.Pages.MedicalTests
             cmd.Connection = connection;
             cmd.Transaction = transaction;
 
-            cmd.CommandText = @"UPDATE medical_test SET name = @Name, details = @Details, result = @Result
-                                WHERE medical_test_id = @MedicalTestID";
-            cmd.Parameters.Add("@Name", MySqlDbType.String).Value = MedicalTest.Name;
-            cmd.Parameters.Add("@Details", MySqlDbType.Text).Value = MedicalTest.Details;
-            cmd.Parameters.Add("@Result", MySqlDbType.Bit).Value = MedicalTest.Result;
-            cmd.Parameters.Add("@MedicalTestID", MySqlDbType.Int32).Value = MedicalTest.MedicalTestId;
+            cmd.CommandText = @"UPDATE patient SET blood_type_id = 
+                                (SELECT blood_type_id FROM blood_type WHERE bt_name = @Name) WHERE patient_id = @PatientID;";
+            cmd.Parameters.Add("@Name", MySqlDbType.String).Value = BloodType.Name;
+            cmd.Parameters.Add("@PatientID", MySqlDbType.String).Value = Patient.PatientId;
             cmd.ExecuteNonQuery();
             transaction.Commit();
             connection.Close();
-            return RedirectToPage("/MedicalTests/View");
-
+            return RedirectToPage("/MyBloodType/View");
         }
     }
 }
