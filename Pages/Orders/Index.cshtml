@@ -24,7 +24,7 @@
                 <td>@order.OfficeId</td>
                 <td>@order.DateArrived</td>
                 <td>@order.Created</td>
-                
+                <td><a asp-page="/Orders/Update" asp-route-id="@order.OrderId">Update Order</a></td>
             </tr>
         }
     </tbody>
